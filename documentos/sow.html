@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOW Vulcan Forge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+    <style>
+        :root {
+            --red-forge: #E74C3C;
+            --gray-industrial: #34495E;
+            --silver-tech: #ECF0F1;
+            --blue-deep: #3498DB;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .vulcan-header {
+            background: linear-gradient(135deg, var(--gray-industrial) 0%, var(--red-forge) 100%);
+            padding: 30px;
+            border-radius: 15px 15px 0 0;
+            color: white;
+            text-align: center;
+            margin-bottom: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vulcan-header::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .vulcan-header::after {
+            content: "";
+            position: absolute;
+            bottom: -80px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .vulcan-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .vulcan-logo i {
+            font-size: 60px;
+            color: var(--red-forge);
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 10px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vulcan-container {
+            background: white;
+            border-radius: 0 0 15px 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+            border: 1px solid #e0e0e0;
+            border-top: none;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--red-forge);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 15px;
+            background: var(--silver-tech);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--red-forge);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--gray-industrial);
+            color: white;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .criteria-container {
+            display: flex;
+            gap: 20px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .criteria-card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            border-top: 5px solid var(--red-forge);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .criteria-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.15);
+        }
+
+        .criteria-number {
+            background: var(--red-forge);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .criteria-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--gray-industrial);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .signature-area {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px dashed var(--gray-industrial);
+        }
+
+        .signature-line {
+            margin: 40px 0;
+        }
+
+        .signature-line p {
+            margin-top: 10px;
+            color: var(--gray-industrial);
+        }
+
+        .footer-brand {
+            text-align: center;
+            margin-top: 50px;
+            padding: 25px;
+            background: var(--silver-tech);
+            border-radius: 15px;
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            color: var(--red-forge);
+            margin-bottom: 15px;
+        }
+
+        .gantt-chart {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .gantt-bar {
+            height: 40px;
+            background: var(--red-forge);
+            border-radius: 6px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-weight: 600;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
+        }
+
+        .gantt-bar::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: rgba(255,255,255,0.2);
+            width: 0;
+            animation: fillBar 1.5s forwards;
+        }
+
+        @keyframes fillBar {
+            to { width: 100%; }
+        }
+
+        .phase-title {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--gray-industrial);
+            margin: 30px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--red-forge);
+        }
+
+        .risk-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .risk-table th:first-child {
+            width: 40%;
+        }
+
+        .priority-high {
+            background: rgba(231, 76, 60, 0.1);
+            font-weight: bold;
+            color: var(--red-forge);
+        }
+
+        .priority-critical {
+            background: rgba(231, 76, 60, 0.2);
+            font-weight: bold;
+            color: #c0392b;
+        }
+
+        .priority-medium {
+            background: rgba(241, 196, 15, 0.1);
+            color: #f39c12;
+        }
+
+        .mermaid {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: var(--red-forge);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .download-btn:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .download-btn i {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .criteria-container {
+                flex-direction: column;
+            }
+
+            .vulcan-header {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .vulcan-container {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="vulcan-header">
+        <div class="vulcan-logo">
+            <i class="fas fa-industry"></i>
+        </div>
+        <h1>STATEMENT OF WORK: VULCAN FORGE</h1>
+        <p class="subtitle">Sistema de Mantenimiento Predictivo para Turbofanes</p>
+    </div>
+
+    <div class="vulcan-container">
+        <div class="section">
+            <h2><i class="fas fa-info-circle"></i> 1. DATOS DEL PROYECTO</h2>
+            <table>
+                <tr>
+                    <th>Campo</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td>Cliente</td>
+                    <td>SkyForge Technologies</td>
+                </tr>
+                <tr>
+                    <td>Proyecto</td>
+                    <td>Turbofan Engine Degradation Simulation – Predictive Maintenance Analysis</td>
+                </tr>
+                <tr>
+                    <td>Versión</td>
+                    <td>1.0</td>
+                </tr>
+                <tr>
+                    <td>Fecha Inicio</td>
+                    <td>10-Jun-2025</td>
+                </tr>
+                <tr>
+                    <td>Fecha Fin</td>
+                    <td>20-Sep-2025</td>
+                </tr>
+                <tr>
+                    <td>Líder de Proyecto</td>
+                    <td>Camilo Garzón M.</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-bullseye"></i> 2. OBJETIVOS PRINCIPALES</h2>
+            <div class="criteria-container">
+                <div class="criteria-card">
+                    <div class="criteria-number">1</div>
+                    <h3>PREDICCIÓN DE FALLAS</h3>
+                    <p>Anticipar fallos en motores con 30 días de anticipación (MAE &lt; 20 ciclos)</p>
+                </div>
+
+                <div class="criteria-card">
+                    <div class="criteria-number">2</div>
+                    <h3>OPTIMIZACIÓN DE COSTOS</h3>
+                    <p>Reducir gastos de mantenimiento en 25% mediante intervención preventiva</p>
+                </div>
+
+                <div class="criteria-card">
+                    <div class="criteria-number">3</div>
+                    <h3>EFICIENCIA OPERATIVA</h3>
+                    <p>Disminuir tiempo de inactividad en línea de producción en 40%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-cogs"></i> 3. ALCANCE TÉCNICO</h2>
+            <div class="mermaid">
+                graph LR
+                A[Extracción NASA] --> B[Limpieza Pandas]
+                B --> C[PostgreSQL]
+                C --> D[Análisis R]
+                D --> E[Dashboards]
+            </div>
+
+            <table>
+                <tr>
+                    <th>Componente</th>
+                    <th>Tecnologías</th>
+                    <th>Entregables</th>
+                </tr>
+                <tr>
+                    <td><strong>Extracción</strong></td>
+                    <td>Python, Requests, urllib</td>
+                    <td>Datasets NASA en /data/raw</td>
+                </tr>
+                <tr>
+                    <td><strong>Transformación</strong></td>
+                    <td>Pandas</td>
+                    <td>Datos limpios en Parquet</td>
+                </tr>
+                <tr>
+                    <td><strong>Almacenamiento</strong></td>
+                    <td>PostgreSQL</td>
+                    <td>Esquema 3NF normalizado</td>
+                </tr>
+                <tr>
+                    <td><strong>Análisis</strong></td>
+                    <td>R, Tidyverse</td>
+                    <td>Reporte estadístico PDF</td>
+                </tr>
+                <tr>
+                    <td><strong>Visualización</strong></td>
+                    <td>Tableau, Power BI</td>
+                    <td>Dashboard interactivo</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-calendar-alt"></i> 4. CRONOGRAMA PRINCIPAL</h2>
+            <div class="gantt-chart">
+                <h3 class="phase-title">FASE 1: PREPARACIÓN DE DATOS</h3>
+                <div class="gantt-bar" style="width: 20%;">Descarga datos NASA (1 días)</div>
+                <div class="gantt-bar" style="width: 30%;">Limpieza inicial (2 días)</div>
+
+                <h3 class="phase-title">FASE 2: MODELADO Y ANÁLISIS</h3>
+                <div class="gantt-bar" style="width: 50%;">Modelado PostgreSQL (2 días)</div>
+                <div class="gantt-bar" style="width: 70%;">Análisis con R (4 días)</div>
+
+                <h3 class="phase-title">FASE 3: DESPLIEGUE</h3>
+                <div class="gantt-bar" style="width: 40%;">Despliegue Dashboards (1 días)</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-clipboard-check"></i> 5. CRITERIOS DE ACEPTACIÓN</h2>
+            <div class="criteria-container">
+                <div class="criteria-card">
+                    <div class="criteria-number">1</div>
+                    <h3>CALIDAD DE DATOS</h3>
+                    <p>&lt; 0.5% valores nulos<br>Consistencia en timestamps</p>
+                </div>
+
+                <div class="criteria-card">
+                    <div class="criteria-number">2</div>
+                    <h3>RENDIMIENTO</h3>
+                    <p>Consultas SQL &lt; 3s<br>Dashboards &lt; 5s</p>
+                </div>
+
+                <div class="criteria-card">
+                    <div class="criteria-number">3</div>
+                    <h3>PRECISIÓN</h3>
+                    <p>MAE &lt; 20 ciclos<br>R² &gt; 0.85</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-exclamation-triangle"></i> 6. RIESGOS PRINCIPALES</h2>
+            <div class="risk-table">
+                <table>
+                    <tr>
+                        <th>Riesgo</th>
+                        <th>Probabilidad</th>
+                        <th>Impacto</th>
+                        <th>Mitigación</th>
+                    </tr>
+                    <tr class="priority-critical">
+                        <td>Cambios estructura NASA</td>
+                        <td>40%</td>
+                        <td>Alto</td>
+                        <td>Descarga local + DVC</td>
+                    </tr>
+                    <tr class="priority-high">
+                        <td>Sesgo en datos históricos</td>
+                        <td>25%</td>
+                        <td>Crítico</td>
+                        <td>Validación con SMOTE en R</td>
+                    </tr>
+                    <tr class="priority-medium">
+                        <td>Rendimiento PostgreSQL</td>
+                        <td>35%</td>
+                        <td>Medio</td>
+                        <td>Partición por timestamp</td>
+                    </tr>
+                    <tr class="priority-medium">
+                        <td>Integración R/PostgreSQL</td>
+                        <td>30%</td>
+                        <td>Medio</td>
+                        <td>Pruebas con dbplyr en etapa DEV</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-signature"></i> 7. FIRMAS</h2>
+            <div class="signature-area">
+                <div class="signature-line">
+                    <p>___________________________________________</p>
+                    <p>Camilo Garzón M.</p>
+                    <p>Líder de Proyecto - Vulcan Forge</p>
+                </div>
+
+                <div class="signature-line">
+                    <p>___________________________________________</p>
+                    <p>Camilo Garzón M.</p>
+                    <p>Director de Manufactura</p>
+                </div>
+
+                <div class="signature-line">
+                    <p>___________________________________________</p>
+                    <p>Camilo Garzón M.</p>
+                    <p>CIO</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-brand">
+            <div class="footer-logo">
+                <i class="fas fa-industry"></i>
+            </div>
+            <h3>VULCAN FORGE</h3>
+            <p>Forjando la excelencia operativa con inteligencia predictiva</p>
+            <p>www.vulcanforge.com | contacto@vulcanforge.com</p>
+        </div>
+
+        <center>
+            <button class="download-btn" onclick="downloadSOW()">
+                <i class="fas fa-download"></i> Descargar SOW como PDF
+            </button>
+        </center>
+    </div>
+
+    <script>
+        function downloadSOW() {
+            alert("Función de descarga activada: En un entorno real, esto generaría un PDF del documento.");
+            // En una implementación real, aquí iría el código para generar el PDF
+        }
+    </script>
+</body>
+</html>
