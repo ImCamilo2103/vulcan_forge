@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis 5 Whys - Proceso de Limpieza de Datos | Vulcan Forge</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 5px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 20px 0 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .why-container {
+            margin: 30px 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .why {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .why:before {
+            content: "?";
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .why-number {
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        .solution-box {
+            background: #e8f4fc;
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+
+        .code-comment {
+            color: #7f8c8d;
+        }
+
+        .code-keyword {
+            color: #3498db;
+        }
+
+        .code-string {
+            color: #2ecc71;
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .flow-step {
+            background: white;
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            padding: 15px 25px;
+            margin: 10px 0;
+            width: 80%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.2);
+        }
+
+        .flow-step:after {
+            content: "↓";
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .flow-step:last-child:after {
+            display: none;
+        }
+
+        .flow-step.error {
+            border-color: var(--accent);
+            background: #fdecea;
+        }
+
+        .flow-step.error:after {
+            color: var(--accent);
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.3));
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--dark);
+            color: white;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .flow-step {
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Análisis 5 Whys</h1>
+            <p class="subtitle">Proceso de Limpieza de Datos en Vulcan Forge</p>
+            <p>Identificando y solucionando problemas en el pipeline de transformación de datos</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>Contexto de la Empresa</h2>
+            <p><strong>Vulcan Forge</strong> es una empresa especializada en análisis predictivo para la industria aeroespacial. Utilizamos modelos avanzados de machine learning para predecir fallos en componentes críticos de motores de avión.</p>
+
+            <h3>Proyecto Actual: Predicción de Vida Útil Remanente (RUL)</h3>
+            <p>Estamos trabajando con el conjunto de datos CMAPSS de la NASA, que contiene información de sensores de motores de turbinas. Nuestro objetivo es predecir cuántos ciclos de operación le quedan a cada motor antes de requerir mantenimiento.</p>
+
+            <div class="solution-box">
+                <p><strong>Problema Identificado:</strong> Durante el proceso de transformación de datos de texto a CSV, encontramos errores de permisos y problemas con el nombramiento de columnas que detuvieron nuestro flujo de trabajo.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>El Método 5 Whys</h2>
+            <p>El método 5 Whys es una técnica de análisis de causa raíz que consiste en preguntar "¿por qué?" cinco veces consecutivas para llegar a la fuente fundamental de un problema.</p>
+
+            <div class="why-container">
+                <div class="why">
+                    <p><span class="why-number">¿Por qué 1?</span> El script de transformación de datos falló con un error "Permission denied".</p>
+                    <p class="highlight">Porque intentamos escribir un archivo con el mismo nombre que un directorio existente.</p>
+                </div>
+
+                <div class="why">
+                    <p><span class="why-number">¿Por qué 2?</span> Estábamos usando la ruta de directorio como ruta de archivo.</p>
+                    <p class="highlight">Porque no estábamos concatenando correctamente el nombre del archivo con la ruta del directorio.</p>
+                </div>
+
+                <div class="why">
+                    <p><span class="why-number">¿Por qué 3?</span> El código no utilizaba <code>os.path.join</code> para construir rutas completas.</p>
+                    <p class="highlight">Porque no se implementaron buenas prácticas de manejo de rutas en el script inicial.</p>
+                </div>
+
+                <div class="why">
+                    <p><span class="why-number">¿Por qué 4?</span> No se siguieron estándares de desarrollo para manejo de archivos.</p>
+                    <p class="highlight">Porque faltó una revisión de código y pruebas exhaustivas antes de implementar.</p>
+                </div>
+
+                <div class="why">
+                    <p><span class="why-number">¿Por qué 5?</span> (Causa raíz) No tenemos un proceso formalizado de desarrollo y revisión de scripts de transformación de datos.</p>
+                    <p class="highlight">Falta de un pipeline estandarizado para el desarrollo y despliegue de scripts ETL.</p>
+                </div>
+            </div>
+
+            <div class="solution-box">
+                <h3>Solución Propuesta</h3>
+                <p>Implementar un proceso estandarizado para el desarrollo de scripts de transformación que incluya:</p>
+                <ul>
+                    <li>Revisión de código por pares</li>
+                    <li>Pruebas unitarias para rutas y manejo de archivos</li>
+                    <li>Uso consistente de <code>os.path.join</code> o <code>pathlib</code> para construcción de rutas</li>
+                    <li>Validación de permisos antes de operaciones de escritura</li>
+                    <li>Documentación clara de la estructura de directorios</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Flujo del Proceso Corregido</h2>
+
+            <div class="flow-chart">
+                <div class="flow-step">Inicio del proceso</div>
+                <div class="flow-step">Definir rutas de entrada/salida</div>
+                <div class="flow-step">Crear directorios si no existen</div>
+                <div class="flow-step">Listar archivos en directorio raw</div>
+                <div class="flow-step">Procesar cada archivo .txt</div>
+                <div class="flow-step">Determinar tipo de archivo (RUL, train, test)</div>
+                <div class="flow-step">Cargar con estructura de columnas apropiada</div>
+                <div class="flow-step error">Construir ruta de salida con os.path.join</div>
+                <div class="flow-step">Guardar como CSV</div>
+                <div class="flow-step">Validación de datos convertidos</div>
+                <div class="flow-step">Fin del proceso</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Código Corregido</h2>
+
+            <div class="code-block">
+                <span class="code-keyword">import</span> os<br>
+                <span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd<br><br>
+
+                <span class="code-comment"># Rutas definidas claramente</span><br>
+                raw_dir = <span class="code-string">'C:/Users/Asus/Documents/data analysis/Portafolio/vulcan_forge/data/raw'</span><br>
+                clean_dir = <span class="code-string">'C:/Users/Asus/Documents/data analysis/Portafolio/vulcan_forge/data/cleaned'</span><br>
+                os.makedirs(clean_dir, exist_ok=<span class="code-keyword">True</span>)<br><br>
+
+                <span class="code-comment"># Estructura de columnas estandarizada</span><br>
+                columns = [<span class="code-string">'unit_number'</span>, <span class="code-string">'time_in_cycles'</span>] + \<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;[<span class="code-string">f'operational_setting{i}'</span> <span class="code-keyword">for</span> i <span class="code-keyword">in</span> <span class="code-keyword">range</span>(<span class="code-number">1</span>, <span class="code-number">4</span>)] + \<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;[<span class="code-string">f'sensor_measurement{e}'</span> <span class="code-keyword">for</span> e <span class="code-keyword">in</span> <span class="code-keyword">range</span>(<span class="code-number">1</span>, <span class="code-number">22</span>)]<br><br>
+
+                <span class="code-comment"># Procesar cada archivo</span><br>
+                <span class="code-keyword">for</span> file <span class="code-keyword">in</span> os.listdir(raw_dir):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> file.endswith(<span class="code-string">'.txt'</span>) <span class="code-keyword">and</span> file != <span class="code-string">'readme.txt'</span>:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file_path = os.path.join(raw_dir, file)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fname = file.replace(<span class="code-string">'.txt'</span>, <span class="code-string">''</span>)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output_path = os.path.join(clean_dir, f<span class="code-string">'{fname}.csv'</span>)<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Manejo específico para archivos RUL</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> file.startswith(<span class="code-string">'RUL'</span>):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;df = pd.read_csv(file_path, header=<span class="code-keyword">None</span>, names=[<span class="code-string">'rul'</span>], delim_whitespace=<span class="code-keyword">True</span>)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">else</span>:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;df = pd.read_csv(file_path, header=<span class="code-keyword">None</span>, names=columns, delim_whitespace=<span class="code-keyword">True</span>)<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Guardar como CSV</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;df.to_csv(output_path, index=<span class="code-keyword">False</span>)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f<span class="code-string">"✅ {file} ➡️ {fname}.csv guardado en {output_path}"</span>)<br><br>
+
+                <span class="code-comment"># Validación de datos convertidos</span><br>
+                <span class="code-keyword">for</span> file <span class="code-keyword">in</span> os.listdir(clean_dir):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;file_path = os.path.join(clean_dir, file)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">try</span>:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> file.endswith(<span class="code-string">'.csv'</span>):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;df = pd.read_csv(file_path)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Validar que todas las columnas son numéricas</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">for</span> col <span class="code-keyword">in</span> df.columns:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> df[col].dtype == <span class="code-string">'object'</span>:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">try</span>:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pd.to_numeric(df[col], errors=<span class="code-string">'raise'</span>)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">except</span> Exception <span class="code-keyword">as</span> e:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f<span class="code-string">"❌ Error en columna '{col}' del archivo '{file}': {e}"</span>)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">except</span> Exception <span class="code-keyword">as</span> e:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(f<span class="code-string">"💥 Error cargando {file}: {e}"</span>)
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Lecciones Aprendidas</h2>
+
+            <h3>Mejoras Implementadas</h3>
+            <ul>
+                <li>Uso consistente de <code>os.path.join</code> para construcción de rutas</li>
+                <li>Validación de existencia de directorios con <code>os.makedirs(exist_ok=True)</code></li>
+                <li>Manejo robusto de nombres de archivos con <code>.replace()</code> en lugar de <code>.rstrip()</code></li>
+                <li>Proceso de validación de datos después de la conversión</li>
+                <li>Mensajes de log más informativos</li>
+            </ul>
+
+            <h3>Prevención de Errores Futuros</h3>
+            <ul>
+                <li>Implementar pruebas unitarias para todas las funciones de transformación</li>
+                <li>Crear un ambiente de desarrollo con validación de código en tiempo real</li>
+                <li>Establecer un proceso de revisión de código para todos los scripts</li>
+                <li>Documentar la estructura esperada de archivos y directorios</li>
+                <li>Agregar verificación de permisos antes de operaciones de escritura</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Vulcan Forge - Transformando datos en decisiones estratégicas</p>
+            <p>Análisis 5 Whys - Proceso de Limpieza de Datos | Generado el 15 de Noviembre, 2023</p>
+        </div>
+    </footer>
+</body>
+</html>
