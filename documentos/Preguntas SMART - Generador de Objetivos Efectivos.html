@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulcan Forge - SMART & EDA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --vulcan-red: #c0392b;
+            --vulcan-orange: #e67e22;
+            --vulcan-dark: #1a1a1a;
+            --vulcan-light: #f5f5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+            color: var(--vulcan-light);
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23222" opacity="0.8"/></svg>');
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--vulcan-red);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg,
+                var(--vulcan-red),
+                var(--vulcan-orange),
+                var(--vulcan-red));
+        }
+
+        .project-title {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, var(--vulcan-orange), var(--vulcan-red));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(230, 126, 34, 0.3);
+        }
+
+        .project-subtitle {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: #ddd;
+            line-height: 1.8;
+        }
+
+        .project-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .project-card {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            border: 1px solid rgba(230, 126, 34, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(192, 57, 43, 0.3);
+            border-color: var(--vulcan-orange);
+        }
+
+        .project-card i {
+            font-size: 2.5rem;
+            color: var(--vulcan-orange);
+            margin-bottom: 15px;
+        }
+
+        .project-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--vulcan-light);
+        }
+
+        .project-card p {
+            color: #bbb;
+            font-size: 1rem;
+        }
+
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .tab-btn {
+            background: rgba(30, 30, 30, 0.8);
+            border: none;
+            padding: 15px 30px;
+            margin: 0 10px;
+            font-size: 1.1rem;
+            color: #bbb;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            background: rgba(44, 62, 80, 0.9);
+            color: var(--vulcan-light);
+            border-bottom: 3px solid var(--vulcan-orange);
+        }
+
+        .tab-btn:hover {
+            background: rgba(44, 62, 80, 0.9);
+            color: var(--vulcan-light);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(230, 126, 34, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--vulcan-orange);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--vulcan-red);
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 15px;
+            font-size: 1.8rem;
+        }
+
+        /* SMART Content */
+        .smart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .smart-card {
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 10px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+
+        .smart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .smart-card.specific { border-color: #3498db; }
+        .smart-card.measurable { border-color: #2ecc71; }
+        .smart-card.achievable { border-color: #f39c12; }
+        .smart-card.relevant { border-color: #e74c3c; }
+        .smart-card.time-bound { border-color: #9b59b6; }
+
+        .smart-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--vulcan-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .smart-title i {
+            margin-right: 10px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .smart-card.specific .smart-title i { background: #3498db; }
+        .smart-card.measurable .smart-title i { background: #2ecc71; }
+        .smart-card.achievable .smart-title i { background: #f39c12; }
+        .smart-card.relevant .smart-title i { background: #e74c3c; }
+        .smart-card.time-bound .smart-title i { background: #9b59b6; }
+
+        .question-list {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .question-item {
+            padding: 12px 0;
+            position: relative;
+            padding-left: 30px;
+            color: #ddd;
+        }
+
+        .question-item::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            color: var(--vulcan-orange);
+            font-size: 24px;
+        }
+
+        /* EDA Content */
+        .eda-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .eda-section {
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid rgba(230, 126, 34, 0.2);
+        }
+
+        .eda-title {
+            font-size: 1.4rem;
+            color: var(--vulcan-orange);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .eda-title i {
+            margin-right: 10px;
+            color: var(--vulcan-red);
+            font-size: 1.5rem;
+        }
+
+        .eda-steps {
+            list-style-type: none;
+        }
+
+        .eda-step {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-left: 35px;
+            position: relative;
+        }
+
+        .eda-step:last-child {
+            border-bottom: none;
+        }
+
+        .eda-step::before {
+            content: "➤";
+            position: absolute;
+            left: 0;
+            top: 15px;
+            color: var(--vulcan-orange);
+            font-size: 18px;
+        }
+
+        .step-desc {
+            color: #ddd;
+            margin-bottom: 8px;
+        }
+
+        .step-code {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: #2ecc71;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 8px;
+        }
+
+        /* Action Section */
+        .action-section {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            border: 1px solid rgba(230, 126, 34, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .action-title {
+            font-size: 1.8rem;
+            color: var(--vulcan-orange);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .action-box {
+            background: linear-gradient(135deg, var(--vulcan-red), var(--vulcan-orange));
+            border-radius: 10px;
+            padding: 25px;
+            color: white;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(20,20,20,0.7);
+            border: 2px solid var(--vulcan-orange);
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            resize: vertical;
+            color: white;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--vulcan-orange), var(--vulcan-red));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #999;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(230, 126, 34, 0.2);
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .project-title {
+                font-size: 2.5rem;
+            }
+
+            .project-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="project-title">Vulcan Forge</h1>
+            <p class="project-subtitle">Documento integrado de definición de objetivos SMART y guía de Análisis Exploratorio de Datos (EDA)</p>
+
+            <div class="project-info">
+                <div class="project-card">
+                    <i class="fas fa-fire"></i>
+                    <h3>Objetivo del Proyecto</h3>
+                    <p>Optimizar procesos de producción mediante análisis de datos de sensores y variables operativas</p>
+                </div>
+
+                <div class="project-card">
+                    <i class="fas fa-database"></i>
+                    <h3>Fuentes de Datos</h3>
+                    <p>Sensores IoT, registros de producción, control de calidad, y mantenimiento predictivo</p>
+                </div>
+
+                <div class="project-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Métricas Clave</h3>
+                    <p>Eficiencia, tasa de defectos, tiempo de ciclo, consumo energético y costos operativos</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="smart">Preguntas SMART</button>
+            <button class="tab-btn" data-tab="eda">Guía EDA</button>
+            <button class="tab-btn" data-tab="action">Acciones</button>
+        </div>
+
+        <!-- SMART Tab Content -->
+        <div id="smart-tab" class="tab-content active">
+            <h2 class="section-title"><i class="fas fa-bullseye"></i> Preguntas SMART para Vulcan Forge</h2>
+            <p style="margin-bottom: 25px; color: #bbb; font-size: 1.1rem;">Estas preguntas ayudarán a definir objetivos claros, medibles y alcanzables para el proyecto Vulcan Forge.</p>
+
+            <div class="smart-container">
+                <div class="smart-card specific">
+                    <h3 class="smart-title"><i class="fas fa-crosshairs"></i> Específico</h3>
+                    <ul class="question-list">
+                        <li class="question-item">¿Qué variables específicas del proceso de forja necesitamos analizar?</li>
+                        <li class="question-item">¿Qué problemas de producción concretos queremos resolver?</li>
+                        <li class="question-item">¿Qué tipos de defectos de producto son más críticos para abordar?</li>
+                        <li class="question-item">¿Qué áreas del proceso tienen mayor impacto en la eficiencia?</li>
+                        <li class="question-item">¿Qué entregables específicos producirá este análisis?</li>
+                    </ul>
+                </div>
+
+                <div class="smart-card measurable">
+                    <h3 class="smart-title"><i class="fas fa-ruler"></i> Medible</h3>
+                    <ul class="question-list">
+                        <li class="question-item">¿Cómo mediremos la mejora en la tasa de defectos?</li>
+                        <li class="question-item">¿Qué métricas de eficiencia usaremos (OEE, tiempo de ciclo, etc.)?</li>
+                        <li class="question-item">¿Qué reducción en costos operativos esperamos lograr?</li>
+                        <li class="question-item">¿Cuánto tiempo de inactividad podemos reducir?</li>
+                        <li class="question-item">¿Qué nivel de precisión necesitamos en nuestros modelos predictivos?</li>
+                    </ul>
+                </div>
+
+                <div class="smart-card achievable">
+                    <h3 class="smart-title"><i class="fas fa-hands-helping"></i> Alcanzable</h3>
+                    <ul class="question-list">
+                        <li class="question-item">¿Tenemos acceso a los datos necesarios de todos los sensores?</li>
+                        <li class="question-item">¿Contamos con los recursos técnicos para implementar las soluciones?</li>
+                        <li class="question-item">¿Es posible integrar los hallazgos con los sistemas existentes?</li>
+                        <li class="question-item">¿Qué limitaciones técnicas podrían afectar los resultados?</li>
+                        <li class="question-item">¿Tenemos el expertise necesario en análisis de procesos industriales?</li>
+                    </ul>
+                </div>
+
+                <div class="smart-card relevant">
+                    <h3 class="smart-title"><i class="fas fa-bullseye"></i> Relevante</h3>
+                    <ul class="question-list">
+                        <li class="question-item">¿Cómo se alinea este proyecto con los objetivos estratégicos de la empresa?</li>
+                        <li class="question-item">¿Qué impacto tendrá en la satisfacción del cliente final?</li>
+                        <li class="question-item">¿Cómo contribuye a mejorar la ventaja competitiva?</li>
+                        <li class="question-item">¿Qué stakeholders se beneficiarán de los resultados?</li>
+                        <li class="question-item">¿Resuelve problemas críticos de producción o calidad?</li>
+                    </ul>
+                </div>
+
+                <div class="smart-card time-bound">
+                    <h3 class="smart-title"><i class="fas fa-clock"></i> Con Tiempo Definido</h3>
+                    <ul class="question-list">
+                        <li class="question-item">¿Cuándo debemos completar el análisis exploratorio inicial?</li>
+                        <li class="question-item">¿Cuál es el plazo para implementar las primeras mejoras?</li>
+                        <li class="question-item">¿Cuándo presentaremos los resultados a la dirección?</li>
+                        <li class="question-item">¿Cuánto tiempo dedicaremos a cada fase del proyecto?</li>
+                        <li class="question-item">¿Cuál es la fecha límite para lograr reducciones de costos medibles?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDA Tab Content -->
+        <div id="eda-tab" class="tab-content">
+            <h2 class="section-title"><i class="fas fa-search"></i> Guía de Análisis Exploratorio de Datos (EDA)</h2>
+            <p style="margin-bottom: 25px; color: #bbb; font-size: 1.1rem;">Pasos detallados para el análisis exploratorio de datos de Vulcan Forge.</p>
+
+            <div class="eda-container">
+                <div class="eda-section">
+                    <h3 class="eda-title"><i class="fas fa-database"></i> Comprensión de Datos</h3>
+                    <ul class="eda-steps">
+                        <li class="eda-step">
+                            <div class="step-desc">Cargar datos de sensores y producción</div>
+                            <div class="step-code">df = pd.read_csv('vulcan_production_data.csv')</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Explorar estructura de los datos</div>
+                            <div class="step-code">df.info()<br>df.head()</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Identificar variables clave</div>
+                            <div class="step-code"># Temperatura, presión, tiempo de ciclo, tasa de defectos<br>key_vars = ['temp', 'pressure', 'cycle_time', 'defect_rate']</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Verificar valores faltantes</div>
+                            <div class="step-code">df.isnull().sum()<br>df.dropna(subset=['critical_vars'])</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Identificar y tratar valores atípicos</div>
+                            <div class="step-code">sns.boxplot(x='temp', data=df)<br>df = df[df['temp'] < 1200]</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="eda-section">
+                    <h3 class="eda-title"><i class="fas fa-chart-bar"></i> Análisis Univariado</h3>
+                    <ul class="eda-steps">
+                        <li class="eda-step">
+                            <div class="step-desc">Distribución de temperaturas</div>
+                            <div class="step-code">sns.histplot(df['temp'], kde=True)<br>plt.title('Distribución de Temperaturas')</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Tasa de defectos por turno</div>
+                            <div class="step-code">df.groupby('shift')['defect_rate'].mean().plot(kind='bar')</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Tiempos de ciclo por máquina</div>
+                            <div class="step-code">sns.boxplot(x='machine_id', y='cycle_time', data=df)</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Consumo energético por producto</div>
+                            <div class="step-code">df.groupby('product_type')['energy_use'].describe()</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Análisis de tendencias temporales</div>
+                            <div class="step-code">df.set_index('timestamp')['temp'].plot(figsize=(12,6))</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="eda-section">
+                    <h3 class="eda-title"><i class="fas fa-project-diagram"></i> Análisis Multivariado</h3>
+                    <ul class="eda-steps">
+                        <li class="eda-step">
+                            <div class="step-desc">Correlación entre variables</div>
+                            <div class="step-code">corr_matrix = df.corr()<br>sns.heatmap(corr_matrix, annot=True)</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Relación temperatura-defectos</div>
+                            <div class="step-code">sns.scatterplot(x='temp', y='defect_rate', hue='material', data=df)</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">ANOVA para diferencias entre máquinas</div>
+                            <div class="step-code">model = ols('cycle_time ~ C(machine_id)', data=df).fit()<br>anova_table = sm.stats.anova_lm(model)</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Agrupación de patrones de falla</div>
+                            <div class="step-code">kmeans = KMeans(n_clusters=3)<br>df['failure_cluster'] = kmeans.fit_predict(failure_data)</div>
+                        </li>
+                        <li class="eda-step">
+                            <div class="step-desc">Análisis de series temporales</div>
+                            <div class="step-code">decomposition = seasonal_decompose(df['defect_rate'], period=24)</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Tab Content -->
+        <div id="action-tab" class="tab-content">
+            <h2 class="section-title"><i class="fas fa-tasks"></i> Plan de Acción para Vulcan Forge</h2>
+
+            <div class="action-section">
+                <div class="action-box">
+                    <p><i class="fas fa-lightbulb"></i> Define tus objetivos SMART específicos para el proyecto Vulcan Forge</p>
+                    <p><i class="fas fa-pencil-alt"></i> Prioriza las acciones de análisis basadas en los hallazgos del EDA</p>
+                </div>
+
+                <h3 class="eda-title"><i class="fas fa-bullseye"></i> Objetivos SMART</h3>
+                <textarea placeholder="Ejemplo: Reducir la tasa de defectos en un 15% durante los próximos 6 meses mediante la optimización de parámetros de temperatura identificados en el análisis EDA..."></textarea>
+
+                <h3 class="eda-title"><i class="fas fa-list-check"></i> Acciones Prioritarias</h3>
+                <textarea placeholder="Ejemplo: 1. Implementar sistema de monitoreo en tiempo real para temperaturas críticas. 2. Ajustar parámetros de enfriamiento en máquinas 3 y 7. 3. Capacitar operarios en control de calidad basado en datos..."></textarea>
+
+                <div class="button-container">
+                    <button>
+                        <i class="fas fa-save"></i> Guardar Plan
+                    </button>
+                    <button>
+                        <i class="fas fa-file-pdf"></i> Exportar a PDF
+                    </button>
+                    <button>
+                        <i class="fas fa-share"></i> Compartir con Equipo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Documento de Planificación para Vulcan Forge | Integración de Objetivos SMART y Análisis Exploratorio de Datos</p>
+            <p>© 2023 Vulcan Forge Analytics | Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script>
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                // Add active class to clicked button and corresponding content
+                btn.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // Simulate saving action
+        const saveBtn = document.querySelector('.button-container button:first-child');
+        saveBtn.addEventListener('click', () => {
+            alert('Plan de Vulcan Forge guardado exitosamente. En una implementación real, esto guardaría los datos en una base de datos.');
+        });
+
+        // Animation on project cards
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    </script>
+</body>
+</html>
