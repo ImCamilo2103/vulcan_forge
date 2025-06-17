@@ -25,3 +25,7 @@ venv/
 .vscode/
 .idea/
 .ipynb_checkpoints/
+
+# 🚫 ARCHIVOS R
+*.R
+scripts/hidden1.*
