@@ -5,7 +5,7 @@ raw_dir = 'C:/Users/Asus/Documents/data analysis/Portafolio/vulcan_forge/data/ra
 clean_dir = 'C:/Users/Asus/Documents/data analysis/Portafolio/vulcan_forge/data/cleaned'
 os.makedirs(clean_dir, exist_ok=True)
 
-columns = ['unit_number', 'time, in_cicles'] + [f'operational_setting{i}' for i in range(1, 4)] + [f'sensor_measurement{e}' for e in range(1, 22)]
+columns = ['unit_number', 'time_in_cicles'] + [f'operational_setting{i}' for i in range(1, 4)] + [f'sensor_measurement{e}' for e in range(1, 22)]
 
 for file in os.listdir(raw_dir):
     if file.endswith('.txt') and file != 'readme.txt':

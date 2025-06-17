@@ -21,6 +21,7 @@ for file in os.listdir(clean_dir):
 
     path = os.path.join(clean_dir, file)
     table = file.replace('.csv', '')
+    table_name = f'{table}_raw'
 
     if table.lower().startswith('rul'):
         df = pd.read_csv(path, header=0, names=['rul'])
@@ -29,12 +30,14 @@ for file in os.listdir(clean_dir):
             print(f'🗃️ Insertados {len(df)} valores en {table}')
 
     else:
-        columns = ['unit_number', 'time, in_cicles'] + [f'operational_setting{i}' for i in range(1, 4)] + [f'sensor_measurement{j}' for j in range(1, 22)]
+        columns = ['unit_number', 'time_in_cycles'] + [f'operational_setting{i}' for i in range(1, 4)] + [f'sensor_measurement{j}' for j in range(1, 22)]
         df = pd.read_csv(path, header=0, names=columns)
+        placeholders = ', '.join(['%s'] * len(columns))
+        cols= ', '.join(columns)
+
         for row in df.itertuples(index=False, name=None):
-            placeholders = ', '.join(['%s'] * len(row))
-            cur.execute(f'INSERT INTO "{table}" VALUES ({placeholders});', row)
-        print(f'🗃️ datos insertados {len(df)} filas en {table}')
+            cur.execute(f'INSERT INTO "{table_name}" ({cols}) VALUES ({placeholders});', row)
+        print(f'🗃️ datos insertados {len(df)} valores en {table_name}')
 
 conn.commit()
 cur.close()
