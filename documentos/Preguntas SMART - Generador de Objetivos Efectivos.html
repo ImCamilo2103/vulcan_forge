@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vulcan Forge - SMART & EDA</title>
+    <title>Vulcan Forge - Objetivos SMART</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -125,62 +125,10 @@
             font-size: 1rem;
         }
 
-        /* Tabs Navigation */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin: 30px 0;
-        }
-
-        .tab-btn {
-            background: rgba(30, 30, 30, 0.8);
-            border: none;
-            padding: 15px 30px;
-            margin: 0 10px;
-            font-size: 1.1rem;
-            color: #bbb;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-        }
-
-        .tab-btn.active {
-            background: rgba(44, 62, 80, 0.9);
-            color: var(--vulcan-light);
-            border-bottom: 3px solid var(--vulcan-orange);
-        }
-
-        .tab-btn:hover {
-            background: rgba(44, 62, 80, 0.9);
-            color: var(--vulcan-light);
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            background: rgba(30, 30, 30, 0.8);
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(230, 126, 34, 0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .section-title {
             font-size: 1.8rem;
             color: var(--vulcan-orange);
-            margin-bottom: 25px;
+            margin: 40px 0 25px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--vulcan-red);
             display: flex;
@@ -268,137 +216,12 @@
             font-size: 24px;
         }
 
-        /* EDA Content */
-        .eda-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .eda-section {
+        .stakeholder-box {
             background: rgba(40, 40, 40, 0.7);
             border-radius: 10px;
             padding: 25px;
-            border: 1px solid rgba(230, 126, 34, 0.2);
-        }
-
-        .eda-title {
-            font-size: 1.4rem;
-            color: var(--vulcan-orange);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        .eda-title i {
-            margin-right: 10px;
-            color: var(--vulcan-red);
-            font-size: 1.5rem;
-        }
-
-        .eda-steps {
-            list-style-type: none;
-        }
-
-        .eda-step {
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-left: 35px;
-            position: relative;
-        }
-
-        .eda-step:last-child {
-            border-bottom: none;
-        }
-
-        .eda-step::before {
-            content: "➤";
-            position: absolute;
-            left: 0;
-            top: 15px;
-            color: var(--vulcan-orange);
-            font-size: 18px;
-        }
-
-        .step-desc {
-            color: #ddd;
-            margin-bottom: 8px;
-        }
-
-        .step-code {
-            background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 5px;
-            font-family: monospace;
-            color: #2ecc71;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            margin-top: 8px;
-        }
-
-        /* Action Section */
-        .action-section {
-            background: rgba(30, 30, 30, 0.8);
-            border-radius: 10px;
-            padding: 30px;
-            border: 1px solid rgba(230, 126, 34, 0.2);
-            margin-bottom: 40px;
-        }
-
-        .action-title {
-            font-size: 1.8rem;
-            color: var(--vulcan-orange);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .action-box {
-            background: linear-gradient(135deg, var(--vulcan-red), var(--vulcan-orange));
-            border-radius: 10px;
-            padding: 25px;
-            color: white;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        textarea {
-            width: 100%;
-            height: 150px;
-            background: rgba(20,20,20,0.7);
-            border: 2px solid var(--vulcan-orange);
-            border-radius: 10px;
-            padding: 15px;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            resize: vertical;
-            color: white;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        button {
-            background: linear-gradient(135deg, var(--vulcan-orange), var(--vulcan-red));
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+            border-left: 5px solid #9b59b6;
+            margin: 40px 0 30px;
         }
 
         footer {
@@ -407,7 +230,7 @@
             color: #999;
             font-size: 0.9rem;
             border-top: 1px solid rgba(230, 126, 34, 0.2);
-            margin-top: 20px;
+            margin-top: 40px;
         }
 
         @media (max-width: 768px) {
@@ -419,12 +242,14 @@
                 font-size: 1.1rem;
             }
 
-            .tabs {
+            .project-info {
                 flex-direction: column;
+                align-items: center;
             }
 
-            .tab-btn {
-                margin: 5px 0;
+            .project-card {
+                width: 100%;
+                max-width: 400px;
             }
         }
     </style>
@@ -433,7 +258,7 @@
     <div class="container">
         <header>
             <h1 class="project-title">Vulcan Forge</h1>
-            <p class="project-subtitle">Documento integrado de definición de objetivos SMART y guía de Análisis Exploratorio de Datos (EDA)</p>
+            <p class="project-subtitle">Documento de Objetivos SMART</p>
 
             <div class="project-info">
                 <div class="project-card">
@@ -456,222 +281,70 @@
             </div>
         </header>
 
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="smart">Preguntas SMART</button>
-            <button class="tab-btn" data-tab="eda">Guía EDA</button>
-            <button class="tab-btn" data-tab="action">Acciones</button>
-        </div>
-
-        <!-- SMART Tab Content -->
-        <div id="smart-tab" class="tab-content active">
-            <h2 class="section-title"><i class="fas fa-bullseye"></i> Preguntas SMART para Vulcan Forge</h2>
-            <p style="margin-bottom: 25px; color: #bbb; font-size: 1.1rem;">Estas preguntas ayudarán a definir objetivos claros, medibles y alcanzables para el proyecto Vulcan Forge.</p>
+        <div id="smart-tab">
+            <h2 class="section-title"><i class="fas fa-bullseye"></i> Objetivos SMART para Vulcan Forge</h2>
+            <p style="margin-bottom: 25px; color: #bbb; font-size: 1.1rem; text-align: center;">
+                Este documento define con claridad los objetivos fundamentales de Vulcan Forge basados en el marco SMART,<br>
+                enfocados al contexto industrial de mantenimiento predictivo con sensores IoT.
+            </p>
 
             <div class="smart-container">
                 <div class="smart-card specific">
                     <h3 class="smart-title"><i class="fas fa-crosshairs"></i> Específico</h3>
                     <ul class="question-list">
-                        <li class="question-item">¿Qué variables específicas del proceso de forja necesitamos analizar?</li>
-                        <li class="question-item">¿Qué problemas de producción concretos queremos resolver?</li>
-                        <li class="question-item">¿Qué tipos de defectos de producto son más críticos para abordar?</li>
-                        <li class="question-item">¿Qué áreas del proceso tienen mayor impacto en la eficiencia?</li>
-                        <li class="question-item">¿Qué entregables específicos producirá este análisis?</li>
+                        <li class="question-item">Identificar sensores clave para predecir el Remaining Useful Life (RUL) en motores FD001-FD004.</li>
+                        <li class="question-item">Definir puntos críticos de falla en el sistema de turbina a partir de los datos de ciclo.</li>
                     </ul>
                 </div>
 
                 <div class="smart-card measurable">
-                    <h3 class="smart-title"><i class="fas fa-ruler"></i> Medible</h3>
+                    <h3 class="smart-title"><i class="fas fa-ruler-combined"></i> Medible</h3>
                     <ul class="question-list">
-                        <li class="question-item">¿Cómo mediremos la mejora en la tasa de defectos?</li>
-                        <li class="question-item">¿Qué métricas de eficiencia usaremos (OEE, tiempo de ciclo, etc.)?</li>
-                        <li class="question-item">¿Qué reducción en costos operativos esperamos lograr?</li>
-                        <li class="question-item">¿Cuánto tiempo de inactividad podemos reducir?</li>
-                        <li class="question-item">¿Qué nivel de precisión necesitamos en nuestros modelos predictivos?</li>
+                        <li class="question-item">Reducir el error de predicción (RMSE) del modelo a menos de 20 ciclos.</li>
+                        <li class="question-item">Lograr precisión R² superior al 85% en los modelos de predicción de vida útil.</li>
                     </ul>
                 </div>
 
                 <div class="smart-card achievable">
                     <h3 class="smart-title"><i class="fas fa-hands-helping"></i> Alcanzable</h3>
                     <ul class="question-list">
-                        <li class="question-item">¿Tenemos acceso a los datos necesarios de todos los sensores?</li>
-                        <li class="question-item">¿Contamos con los recursos técnicos para implementar las soluciones?</li>
-                        <li class="question-item">¿Es posible integrar los hallazgos con los sistemas existentes?</li>
-                        <li class="question-item">¿Qué limitaciones técnicas podrían afectar los resultados?</li>
-                        <li class="question-item">¿Tenemos el expertise necesario en análisis de procesos industriales?</li>
+                        <li class="question-item">Contar con todos los datos normalizados en PostgreSQL bajo esquema 3NF.</li>
+                        <li class="question-item">Realizar análisis multivariado en R con un conjunto representativo de motores.</li>
                     </ul>
                 </div>
 
                 <div class="smart-card relevant">
-                    <h3 class="smart-title"><i class="fas fa-bullseye"></i> Relevante</h3>
+                    <h3 class="smart-title"><i class="fas fa-check-circle"></i> Relevante</h3>
                     <ul class="question-list">
-                        <li class="question-item">¿Cómo se alinea este proyecto con los objetivos estratégicos de la empresa?</li>
-                        <li class="question-item">¿Qué impacto tendrá en la satisfacción del cliente final?</li>
-                        <li class="question-item">¿Cómo contribuye a mejorar la ventaja competitiva?</li>
-                        <li class="question-item">¿Qué stakeholders se beneficiarán de los resultados?</li>
-                        <li class="question-item">¿Resuelve problemas críticos de producción o calidad?</li>
+                        <li class="question-item">Contribuir a una reducción del 25% en costos de mantenimiento en turbinas industriales.</li>
+                        <li class="question-item">Minimizar el downtime de líneas de producción en al menos 40%.</li>
                     </ul>
                 </div>
 
                 <div class="smart-card time-bound">
                     <h3 class="smart-title"><i class="fas fa-clock"></i> Con Tiempo Definido</h3>
                     <ul class="question-list">
-                        <li class="question-item">¿Cuándo debemos completar el análisis exploratorio inicial?</li>
-                        <li class="question-item">¿Cuál es el plazo para implementar las primeras mejoras?</li>
-                        <li class="question-item">¿Cuándo presentaremos los resultados a la dirección?</li>
-                        <li class="question-item">¿Cuánto tiempo dedicaremos a cada fase del proyecto?</li>
-                        <li class="question-item">¿Cuál es la fecha límite para lograr reducciones de costos medibles?</li>
+                        <li class="question-item">Completar el EDA y validación de hipótesis antes del 30 de junio de 2025.</li>
+                        <li class="question-item">Tener listo el reporte PDF y dashboard en menos de 2 semanas posterior al análisis.</li>
                     </ul>
                 </div>
             </div>
-        </div>
 
-        <!-- EDA Tab Content -->
-        <div id="eda-tab" class="tab-content">
-            <h2 class="section-title"><i class="fas fa-search"></i> Guía de Análisis Exploratorio de Datos (EDA)</h2>
-            <p style="margin-bottom: 25px; color: #bbb; font-size: 1.1rem;">Pasos detallados para el análisis exploratorio de datos de Vulcan Forge.</p>
-
-            <div class="eda-container">
-                <div class="eda-section">
-                    <h3 class="eda-title"><i class="fas fa-database"></i> Comprensión de Datos</h3>
-                    <ul class="eda-steps">
-                        <li class="eda-step">
-                            <div class="step-desc">Cargar datos de sensores y producción</div>
-                            <div class="step-code">df = pd.read_csv('vulcan_production_data.csv')</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Explorar estructura de los datos</div>
-                            <div class="step-code">df.info()<br>df.head()</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Identificar variables clave</div>
-                            <div class="step-code"># Temperatura, presión, tiempo de ciclo, tasa de defectos<br>key_vars = ['temp', 'pressure', 'cycle_time', 'defect_rate']</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Verificar valores faltantes</div>
-                            <div class="step-code">df.isnull().sum()<br>df.dropna(subset=['critical_vars'])</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Identificar y tratar valores atípicos</div>
-                            <div class="step-code">sns.boxplot(x='temp', data=df)<br>df = df[df['temp'] < 1200]</div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="eda-section">
-                    <h3 class="eda-title"><i class="fas fa-chart-bar"></i> Análisis Univariado</h3>
-                    <ul class="eda-steps">
-                        <li class="eda-step">
-                            <div class="step-desc">Distribución de temperaturas</div>
-                            <div class="step-code">sns.histplot(df['temp'], kde=True)<br>plt.title('Distribución de Temperaturas')</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Tasa de defectos por turno</div>
-                            <div class="step-code">df.groupby('shift')['defect_rate'].mean().plot(kind='bar')</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Tiempos de ciclo por máquina</div>
-                            <div class="step-code">sns.boxplot(x='machine_id', y='cycle_time', data=df)</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Consumo energético por producto</div>
-                            <div class="step-code">df.groupby('product_type')['energy_use'].describe()</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Análisis de tendencias temporales</div>
-                            <div class="step-code">df.set_index('timestamp')['temp'].plot(figsize=(12,6))</div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="eda-section">
-                    <h3 class="eda-title"><i class="fas fa-project-diagram"></i> Análisis Multivariado</h3>
-                    <ul class="eda-steps">
-                        <li class="eda-step">
-                            <div class="step-desc">Correlación entre variables</div>
-                            <div class="step-code">corr_matrix = df.corr()<br>sns.heatmap(corr_matrix, annot=True)</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Relación temperatura-defectos</div>
-                            <div class="step-code">sns.scatterplot(x='temp', y='defect_rate', hue='material', data=df)</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">ANOVA para diferencias entre máquinas</div>
-                            <div class="step-code">model = ols('cycle_time ~ C(machine_id)', data=df).fit()<br>anova_table = sm.stats.anova_lm(model)</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Agrupación de patrones de falla</div>
-                            <div class="step-code">kmeans = KMeans(n_clusters=3)<br>df['failure_cluster'] = kmeans.fit_predict(failure_data)</div>
-                        </li>
-                        <li class="eda-step">
-                            <div class="step-desc">Análisis de series temporales</div>
-                            <div class="step-code">decomposition = seasonal_decompose(df['defect_rate'], period=24)</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Action Tab Content -->
-        <div id="action-tab" class="tab-content">
-            <h2 class="section-title"><i class="fas fa-tasks"></i> Plan de Acción para Vulcan Forge</h2>
-
-            <div class="action-section">
-                <div class="action-box">
-                    <p><i class="fas fa-lightbulb"></i> Define tus objetivos SMART específicos para el proyecto Vulcan Forge</p>
-                    <p><i class="fas fa-pencil-alt"></i> Prioriza las acciones de análisis basadas en los hallazgos del EDA</p>
-                </div>
-
-                <h3 class="eda-title"><i class="fas fa-bullseye"></i> Objetivos SMART</h3>
-                <textarea placeholder="Ejemplo: Reducir la tasa de defectos en un 15% durante los próximos 6 meses mediante la optimización de parámetros de temperatura identificados en el análisis EDA..."></textarea>
-
-                <h3 class="eda-title"><i class="fas fa-list-check"></i> Acciones Prioritarias</h3>
-                <textarea placeholder="Ejemplo: 1. Implementar sistema de monitoreo en tiempo real para temperaturas críticas. 2. Ajustar parámetros de enfriamiento en máquinas 3 y 7. 3. Capacitar operarios en control de calidad basado en datos..."></textarea>
-
-                <div class="button-container">
-                    <button>
-                        <i class="fas fa-save"></i> Guardar Plan
-                    </button>
-                    <button>
-                        <i class="fas fa-file-pdf"></i> Exportar a PDF
-                    </button>
-                    <button>
-                        <i class="fas fa-share"></i> Compartir con Equipo
-                    </button>
-                </div>
+            <div class="stakeholder-box">
+                <h3 class="smart-title"><i class="fas fa-user-tie"></i> Stakeholder Responsable</h3>
+                <p style="color: #ddd; padding-left: 45px; margin-top: 10px; font-size: 1.1rem;">
+                    Camilo Garzón M. – Líder de Proyecto Vulcan Forge
+                </p>
             </div>
         </div>
 
         <footer>
-            <p>Documento de Planificación para Vulcan Forge | Integración de Objetivos SMART y Análisis Exploratorio de Datos</p>
+            <p>Documento de Planificación para Vulcan Forge | Objetivos SMART</p>
             <p>© 2023 Vulcan Forge Analytics | Todos los derechos reservados</p>
         </footer>
     </div>
 
     <script>
-        // Tab functionality
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tabId = btn.getAttribute('data-tab');
-
-                // Remove active class from all buttons and contents
-                tabBtns.forEach(b => b.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-
-                // Add active class to clicked button and corresponding content
-                btn.classList.add('active');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-            });
-        });
-
-        // Simulate saving action
-        const saveBtn = document.querySelector('.button-container button:first-child');
-        saveBtn.addEventListener('click', () => {
-            alert('Plan de Vulcan Forge guardado exitosamente. En una implementación real, esto guardaría los datos en una base de datos.');
-        });
-
         // Animation on project cards
         const projectCards = document.querySelectorAll('.project-card');
         projectCards.forEach((card, index) => {

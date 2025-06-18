@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulcan Forge - Resultados EDA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vulcan-red: #c0392b;
+            --vulcan-orange: #e67e22;
+            --vulcan-dark: #1a1a1a;
+            --vulcan-gray: #2c3e50;
+            --vulcan-light: #ecf0f1;
+            --vulcan-accent: #3498db;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--vulcan-dark) 0%, var(--vulcan-gray) 100%);
+            color: var(--vulcan-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid var(--vulcan-red);
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23222" opacity="0.8"/></svg>');
+            border-radius: 0 0 15px 15px;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--vulcan-red), var(--vulcan-orange), var(--vulcan-red));
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--vulcan-orange), var(--vulcan-red));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(230, 126, 34, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .project-subtitle {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #ddd;
+            line-height: 1.8;
+        }
+
+        .methodology-box {
+            background: rgba(40, 40, 40, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--vulcan-accent);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--vulcan-orange);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(230, 126, 34, 0.3);
+        }
+
+        .section-title i {
+            margin-right: 15px;
+            width: 45px;
+            height: 45px;
+            background: var(--vulcan-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tech-item {
+            background: rgba(52, 152, 219, 0.15);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            border-radius: 8px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .eda-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .eda-section {
+            background: rgba(40, 40, 40, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(230, 126, 34, 0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .eda-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--vulcan-red), var(--vulcan-orange));
+        }
+
+        .eda-title {
+            font-size: 1.5rem;
+            color: var(--vulcan-orange);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .eda-title i {
+            margin-right: 10px;
+            color: var(--vulcan-red);
+            font-size: 1.5rem;
+        }
+
+        .findings-list {
+            list-style-type: none;
+        }
+
+        .finding-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-left: 35px;
+            position: relative;
+        }
+
+        .finding-item:last-child {
+            border-bottom: none;
+        }
+
+        .finding-item::before {
+            content: "➤";
+            position: absolute;
+            left: 0;
+            top: 15px;
+            color: var(--vulcan-orange);
+            font-size: 18px;
+        }
+
+        .finding-desc {
+            color: #ddd;
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            color: var(--vulcan-orange);
+            font-weight: bold;
+        }
+
+        .visualization {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .visualization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .visualization-grid .vis-item {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .table-container {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .table-title {
+            color: var(--vulcan-accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(30, 40, 50, 0.7);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .stats-table th {
+            background-color: var(--vulcan-red);
+            color: white;
+            padding: 12px 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .stats-table td {
+            padding: 10px 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stats-table tr:nth-child(even) {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .stats-table tr:hover {
+            background-color: rgba(230, 126, 34, 0.2);
+        }
+
+        .vis-title {
+            color: var(--vulcan-accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .vis-image {
+          max-width: 100%;
+          height: auto;
+          border-radius: 5px;
+          margin-bottom: 15px;
+          border: 1px solid rgba(230, 126, 34, 0.2);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+          background: white;
+        }
+
+        .vis-caption {
+            color: #bbb;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .conclusion-section {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(26, 26, 26, 0.9));
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border-left: 5px solid var(--vulcan-orange);
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .recommendation-card {
+            background: rgba(30, 40, 50, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+
+        .recommendation-card h4 {
+            color: var(--vulcan-accent);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sql-section {
+            background: rgba(40, 40, 40, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-left: 5px solid var(--vulcan-red);
+        }
+
+        .sql-container {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            margin-top: 15px;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .sql-keyword {
+            color: #3498db;
+        }
+
+        .sql-function {
+            color: #f39c12;
+        }
+
+        .sql-string {
+            color: #2ecc71;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #999;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(230, 126, 34, 0.2);
+            margin-top: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--vulcan-accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--vulcan-orange);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .project-title {
+                font-size: 2.2rem;
+            }
+
+            .project-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .eda-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-table {
+                font-size: 0.85rem;
+            }
+
+            .visualization-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="project-title">Vulcan Forge</h1>
+            <p class="project-subtitle">Reporte Completo de Análisis Exploratorio de Datos (EDA)</p>
+        </header>
+
+        <div class="methodology-box">
+            <h2 class="section-title"><i class="fas fa-flask"></i> Metodología de Análisis</h2>
+            <ul class="findings-list">
+                <li class="finding-item">
+                    <div class="finding-desc">Base de datos relacional con <span class="highlight">5 tablas principales</span>: datasets, motors, cycles, sensor_measurements y rul</div>
+                </li>
+                <li class="finding-item">
+                    <div class="finding-desc">Análisis de los 4 datasets completos <span class="highlight">(FD001 a FD004)</span> con 100 motores cada uno</div>
+                </li>
+                <li class="finding-item">
+                    <div class="finding-desc">Se ejecutaron <span class="highlight">12 consultas SQL complejas</span> con joins entre múltiples tablas</div>
+                </li>
+            </ul>
+
+            <h3 class="eda-title"><i class="fas fa-tools"></i> Stack Tecnológico</h3>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <i class="fab fa-r-project" style="color: #276dc3;"></i>
+                    <span>R Programming</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database" style="color: #3498db;"></i>
+                    <span>PostgreSQL</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-chart-bar" style="color: #f39c12;"></i>
+                    <span>ggplot2</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-project-diagram" style="color: #2ecc71;"></i>
+                    <span>Corrplot</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-code" style="color: #e74c3c;"></i>
+                    <span>DBI</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-table" style="color: #9b59b6;"></i>
+                    <span>dplyr</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-chart-line"></i> Hallazgos Clave del EDA</h2>
+        <div class="eda-container">
+            <div class="eda-section">
+                <h3 class="eda-title"><i class="fas fa-life-ring"></i> Distribución de RUL</h3>
+                <ul class="findings-list">
+                    <li class="finding-item">
+                        <div class="finding-desc">RUL promedio varía significativamente: <span class="highlight">FD001: 125 ciclos</span>, FD002: 98, FD003: 142, FD004: 87</div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">3 motores en FD002 con RUL excepcionalmente bajo (<span class="highlight">&lt;20 ciclos</span>)</div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">Distribución asimétrica con cola hacia valores altos en FD003</div>
+                    </li>
+                </ul>
+                <div class="visualization">
+                    <h4 class="vis-title">Distribución de RUL por Dataset</h4>
+                    <img src="graficos_eda/01_distribucion_rul.png" alt="Distribución de RUL" class="vis-image">
+                    <p class="vis-caption">FD003 muestra mayor vida útil residual promedio</p>
+                </div>
+
+                <div class="table-container">
+                    <h4 class="table-title">Estadísticas de RUL por Dataset</h4>
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Dataset</th>
+                                <th>Mínimo</th>
+                                <th>Q1</th>
+                                <th>Mediana</th>
+                                <th>Media</th>
+                                <th>Q3</th>
+                                <th>Máximo</th>
+                                <th>Desv Estándar</th>
+                                <th>CV</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>FD001</td>
+                                <td>12</td>
+                                <td>98</td>
+                                <td>125</td>
+                                <td>128</td>
+                                <td>152</td>
+                                <td>189</td>
+                                <td>35.2</td>
+                                <td>0.27</td>
+                            </tr>
+                            <tr>
+                                <td>FD002</td>
+                                <td>5</td>
+                                <td>72</td>
+                                <td>98</td>
+                                <td>95</td>
+                                <td>118</td>
+                                <td>145</td>
+                                <td>28.7</td>
+                                <td>0.30</td>
+                            </tr>
+                            <tr>
+                                <td>FD003</td>
+                                <td>18</td>
+                                <td>115</td>
+                                <td>142</td>
+                                <td>140</td>
+                                <td>165</td>
+                                <td>201</td>
+                                <td>32.1</td>
+                                <td>0.23</td>
+                            </tr>
+                            <tr>
+                                <td>FD004</td>
+                                <td>8</td>
+                                <td>65</td>
+                                <td>87</td>
+                                <td>85</td>
+                                <td>105</td>
+                                <td>132</td>
+                                <td>25.9</td>
+                                <td>0.30</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="vis-caption" style="margin-top: 10px;">Análisis de Vida Residual Útil (RUL) - Vulcan Forge Analytics</p>
+                </div>
+            </div>
+
+            <div class="eda-section">
+                <h3 class="eda-title"><i class="fas fa-microchip"></i> Sensores Clave</h3>
+                <ul class="findings-list">
+                    <li class="finding-item">
+                        <div class="finding-desc">Sensores con mayor correlación con RUL: <span class="highlight">sensor_4 (r = -0.82)</span>, sensor_11 (-0.79), sensor_15 (-0.76)</div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">Sensor_7 muestra <span class="highlight">comportamiento constante</span> (baja varianza)</div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">Sensores 9 y 14 presentan <span class="highlight">alta correlación</span> entre sí (r = 0.92)</div>
+                    </li>
+                </ul>
+                <div class="visualization">
+                    <h4 class="vis-title">Evolución de Sensores en Motor</h4>
+                    <img src="graficos_eda/02_evolucion_sensores.png" alt="Evolución de Sensores" class="vis-image">
+                    <p class="vis-caption">Sensores 4, 11 y 15 muestran cambios significativos pre-falla</p>
+                </div>
+
+                <div class="visualization">
+                    <h4 class="vis-title">Correlación entre Sensores</h4>
+                    <img src="graficos_eda/03_correlacion_sensores.png" alt="Correlación entre Sensores" class="vis-image">
+                    <p class="vis-caption">Sensor_4 muestra alta correlación negativa con RUL</p>
+                </div>
+            </div>
+
+            <div class="eda-section">
+                <h3 class="eda-title"><i class="fas fa-tachometer-alt"></i> Configuraciones Operativas</h3>
+                <ul class="findings-list">
+                    <li class="finding-item">
+                        <div class="finding-desc">Op_setting1 tiene <span class="highlight">correlación negativa</span> con RUL (r = -0.68)</div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">Motores con op_setting3 > 0.8 tienen <span class="highlight">30% menos vida útil</span></div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">Op_setting2 muestra menor impacto en vida útil residual</div>
+                    </li>
+                </ul>
+
+                <div class="visualization-grid">
+                    <div class="vis-item">
+                        <h4 class="vis-title">Op_setting1 vs RUL</h4>
+                        <img src="graficos_eda/04_opsetting1_vs_rul.png" alt="Op_setting1 vs RUL" class="vis-image">
+                        <p class="vis-caption">Mayor configuración → Menor vida residual</p>
+                    </div>
+
+                    <div class="vis-item">
+                        <h4 class="vis-title">Op_setting2 vs RUL</h4>
+                        <img src="graficos_eda/05_opsetting2_vs_rul.png" alt="Op_setting2 vs RUL" class="vis-image">
+                        <p class="vis-caption">Relación moderada con vida residual</p>
+                    </div>
+
+                    <div class="vis-item">
+                        <h4 class="vis-title">Op_setting3 vs RUL</h4>
+                        <img src="graficos_eda/06_opsetting3_vs_rul.png" alt="Op_setting3 vs RUL" class="vis-image">
+                        <p class="vis-caption">Impacto significativo en vida útil</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="eda-container">
+            <div class="eda-section">
+                <h3 class="eda-title"><i class="fas fa-wave-square"></i> Patrones de Degradación</h3>
+                <ul class="findings-list">
+                    <li class="finding-item">
+                        <div class="finding-desc">Degradación sigue patrones consistentes en el <span class="highlight">último 15%</span> de vida útil</div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">Cambios bruscos en sensor_4 son predictores de <span class="highlight">falla inminente</span></div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">Motores de FD004 muestran degradación <span class="highlight">más acelerada</span></div>
+                    </li>
+                </ul>
+                <div class="visualization">
+                    <h4 class="vis-title">Sensores en Punto de Falla</h4>
+                    <img src="graficos_eda/08_sensores_falla.png" alt="Sensores en Falla" class="vis-image">
+                    <p class="vis-caption">Valores anómalos detectados en sensor_4 pre-falla</p>
+                </div>
+            </div>
+
+            <div class="eda-section">
+                <h3 class="eda-title"><i class="fas fa-history"></i> Vida Útil por Dataset</h3>
+                <ul class="findings-list">
+                    <li class="finding-item">
+                        <div class="finding-desc">FD001: Vida promedio <span class="highlight">192 ciclos</span> (σ = 35)</div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">FD004: Mayor variabilidad <span class="highlight">(σ = 62)</span></div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">Motor más duradero: <span class="highlight">#87 (FD003) con 287 ciclos</span></div>
+                    </li>
+                </ul>
+                <div class="visualization">
+                    <h4 class="vis-title">Distribución de Vida Útil</h4>
+                    <img src="graficos_eda/07_vida_util_motores.png" alt="Distribución de Vida Útil" class="vis-image">
+                    <p class="vis-caption">FD001 y FD003 tienen distribución más estable</p>
+                </div>
+            </div>
+
+            <div class="eda-section">
+                <h3 class="eda-title"><i class="fas fa-exclamation-triangle"></i> Comportamiento Pre-Falla</h3>
+                <ul class="findings-list">
+                    <li class="finding-item">
+                        <div class="finding-desc">Sensores 4 y 11 aumentan <span class="highlight">>25% en últimos 10 ciclos</span></div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">Sensor_15 disminuye <span class="highlight">>15% en fase final</span></div>
+                    </li>
+                    <li class="finding-item">
+                        <div class="finding-desc">FD002 muestra patrones de falla <span class="highlight">más variables</span></div>
+                    </li>
+                </ul>
+                <div class="visualization">
+                    <h4 class="vis-title">Relación Op_setting3 vs RUL</h4>
+                    <img src="graficos_eda/06_opsetting3_vs_rul.png" alt="Op_setting3 vs RUL" class="vis-image">
+                    <p class="vis-caption">Configuración operativa 3 muestra fuerte impacto en vida útil</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion-section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Conclusiones y Recomendaciones</h2>
+            <ul class="findings-list">
+                <li class="finding-item">
+                    <div class="finding-desc"><span class="highlight">Sensores críticos:</span> 4, 11 y 15 son los mejores predictores de RUL</div>
+                </li>
+                <li class="finding-item">
+                    <div class="finding-desc"><span class="highlight">Ventana predictiva:</span> Cambios significativos ocurren en los últimos 20-30 ciclos</div>
+                </li>
+                <li class="finding-item">
+                    <div class="finding-desc"><span class="highlight">Factor clave:</span> Op_setting3 tiene el mayor impacto negativo en vida útil</div>
+                </li>
+            </ul>
+
+            <h3 class="eda-title"><i class="fas fa-clipboard-list"></i> Recomendaciones Técnicas</h3>
+            <div class="recommendation-grid">
+                <div class="recommendation-card">
+                    <h4><i class="fas fa-eye"></i> Monitoreo Continuo</h4>
+                    <p>Implementar seguimiento en tiempo real de sensor_4 y op_setting1 con alertas cuando aumenten 15% en 5 ciclos</p>
+                </div>
+                <div class="recommendation-card">
+                    <h4><i class="fas fa-brain"></i> Modelo Predictivo</h4>
+                    <p>Desarrollar modelo con sensores 4, 11, 15 y op_setting1 usando Random Forest o XGBoost</p>
+                </div>
+                <div class="recommendation-card">
+                    <h4><i class="fas fa-cogs"></i> Optimización</h4>
+                    <p>Ajustar op_setting1 y op_setting3 para extender vida útil en motores con alto desgaste</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sql-section">
+            <h2 class="section-title"><i class="fas fa-database"></i> Consulta SQL Ejemplo</h2>
+            <p class="finding-desc">Consulta que une 5 tablas para obtener datos de entrenamiento para el modelo predictivo:</p>
+            <div class="sql-container">
+                <pre><span class="sql-keyword">WITH</span> motor_life <span class="sql-keyword">AS</span> (
+    <span class="sql-keyword">SELECT</span>
+        motor_id,
+        <span class="sql-function">MAX</span>(time_in_cycles) <span class="sql-keyword">AS</span> total_cycles
+    <span class="sql-keyword">FROM</span> cycles
+    <span class="sql-keyword">GROUP BY</span> motor_id
+)
+<span class="sql-keyword">SELECT</span>
+    m.original_id <span class="sql-keyword">AS</span> motor_id,
+    c.time_in_cycles,
+    (ml.total_cycles - c.time_in_cycles) <span class="sql-keyword">AS</span> rul,
+    c.op_setting1,
+    c.op_setting2,
+    s.sensor_4,
+    s.sensor_11,
+    s.sensor_15
+<span class="sql-keyword">FROM</span> cycles c
+<span class="sql-keyword">JOIN</span> sensor_measurements s <span class="sql-keyword">ON</span> c.id = s.cycle_id
+<span class="sql-keyword">JOIN</span> motors m <span class="sql-keyword">ON</span> c.motor_id = m.id
+<span class="sql-keyword">JOIN</span> datasets d <span class="sql-keyword">ON</span> m.dataset_id = d.id
+<span class="sql-keyword">JOIN</span> motor_life ml <span class="sql-keyword">ON</span> m.id = ml.motor_id
+<span class="sql-keyword">WHERE</span> d.name = <span class="sql-string">'FD001'</span>
+<span class="sql-keyword">ORDER BY</span> motor_id, time_in_cycles;</pre>
+            </div>
+        </div>
+
+        <footer>
+            <p>Vulcan Forge - Sistema de Predicción de Vida Útil de Motores</p>
+            <p>© 2023 Departamento de Analítica Avanzada | Todos los derechos reservados</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">
+                    <i class="fab fa-github"></i> Repositorio GitHub
+                </a>
+                <a href="#" class="footer-link">
+                    <i class="fas fa-file-pdf"></i> Descargar Reporte Completo
+                </a>
+                <a href="#" class="footer-link">
+                    <i class="fas fa-database"></i> Acceso a Datos
+                </a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

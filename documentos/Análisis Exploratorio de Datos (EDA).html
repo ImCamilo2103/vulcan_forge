@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía de EDA - Análisis Exploratorio de Datos</title>
+    <title>Guía EDA - Vulcan Forge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
+            --vulcan-dark: #1a1a1a;
+            --vulcan-red: #c0392b;
+            --vulcan-orange: #e67e22;
+            --vulcan-gray: #2c3e50;
+            --vulcan-light: #ecf0f1;
         }
 
         * {
@@ -21,9 +22,10 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+            color: var(--vulcan-light);
             line-height: 1.6;
+            min-height: 100vh;
             padding: 20px;
         }
 
@@ -34,51 +36,122 @@
 
         header {
             text-align: center;
-            padding: 30px 0;
+            padding: 40px 20px;
             margin-bottom: 30px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid var(--vulcan-red);
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23222" opacity="0.8"/></svg>');
+            border-radius: 0 0 15px 15px;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--vulcan-red), var(--vulcan-orange), var(--vulcan-red));
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--vulcan-orange), var(--vulcan-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            box-shadow: 0 0 20px rgba(230, 126, 34, 0.5);
         }
 
         h1 {
-            color: var(--primary);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--vulcan-orange), var(--vulcan-red));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(230, 126, 34, 0.3);
+            letter-spacing: 1px;
         }
 
         .subtitle {
-            color: var(--secondary);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 0 auto 30px;
+            color: #ddd;
+            line-height: 1.8;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
         .section {
-            background: white;
-            border-radius: 10px;
+            background: rgba(40, 40, 40, 0.8);
+            border-radius: 15px;
             padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--vulcan-orange);
+            position: relative;
+            overflow: hidden;
         }
 
         .section:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(192, 57, 43, 0.3);
+        }
+
+        .section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--vulcan-red), var(--vulcan-orange));
         }
 
         .section-title {
-            color: var(--primary);
-            border-bottom: 2px solid var(--secondary);
-            padding-bottom: 10px;
+            color: var(--vulcan-orange);
+            padding-bottom: 12px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
+            font-size: 1.4rem;
+            border-bottom: 1px solid rgba(230, 126, 34, 0.3);
         }
 
         .section-title i {
-            margin-right: 10px;
-            color: var(--accent);
+            margin-right: 15px;
+            width: 45px;
+            height: 45px;
+            background: var(--vulcan-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 10px rgba(192, 57, 43, 0.3);
         }
 
         .question-list {
@@ -87,17 +160,18 @@
         }
 
         .question-item {
-            padding: 15px 15px 15px 60px;
-            border-left: 3px solid var(--secondary);
-            margin-bottom: 20px;
+            padding: 18px 18px 18px 70px;
+            margin-bottom: 22px;
             position: relative;
-            background: #f8f9fa;
-            border-radius: 0 8px 8px 0;
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 8px;
             transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            border: 1px solid rgba(230, 126, 34, 0.1);
         }
 
         .question-item:hover {
-            background: #e3f2fd;
+            background: rgba(50, 30, 20, 0.7);
             transform: translateX(5px);
         }
 
@@ -105,50 +179,122 @@
             counter-increment: question-counter;
             content: counter(question-counter);
             position: absolute;
-            left: 15px;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            width: 35px;
-            height: 35px;
-            background: var(--secondary);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--vulcan-orange), var(--vulcan-red));
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 3px 8px rgba(230, 126, 34, 0.3);
         }
 
         .question-text {
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--vulcan-light);
         }
 
         .objective {
-            color: var(--accent);
-            font-size: 0.9rem;
+            color: #e74c3c;
+            font-size: 0.95rem;
             font-style: italic;
+            padding: 8px 0 0;
+            border-top: 1px dashed rgba(230, 126, 34, 0.3);
+            margin-top: 10px;
         }
 
         footer {
             text-align: center;
             padding: 30px 0;
-            color: var(--primary);
-            font-size: 0.9rem;
+            color: #999;
+            font-size: 0.95rem;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-top: 20px;
+            border-top: 1px solid rgba(230, 126, 34, 0.2);
+        }
+
+        .footer-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--vulcan-orange);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, var(--vulcan-orange), var(--vulcan-red));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(230, 126, 34, 0.4);
+        }
+
+        .action-btn.download {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+        }
+
+        .action-btn.print {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
         }
 
         @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
             .section {
-                padding: 15px;
+                padding: 20px;
             }
 
             .question-item {
-                padding-left: 50px;
+                padding: 15px 15px 15px 60px;
             }
 
             .question-item::before {
-                width: 30px;
-                height: 30px;
+                width: 35px;
+                height: 35px;
+                left: 15px;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .section-title i {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -156,143 +302,189 @@
 <body>
     <div class="container">
         <header>
-            <h1>Guía de Preguntas para Análisis Exploratorio de Datos (EDA)</h1>
-            <p class="subtitle">Estas preguntas te guiarán en la exploración inicial de tu conjunto de datos para descubrir patrones, anomalías y relaciones significativas</p>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h1>Vulcan Forge</h1>
+            </div>
+            <p class="subtitle">Guía de Análisis Exploratorio de Datos (EDA) para procesos industriales</p>
         </header>
 
-        <section class="section">
-            <h2 class="section-title"><i>📊</i> Comprensión General del Dataset</h2>
-            <ol class="question-list">
-                <li class="question-item">
-                    <div class="question-text">¿Cuál es la estructura del dataset? (número de filas y columnas)</div>
-                    <div class="objective">Objetivo: Entender el tamaño y alcance de los datos</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Qué tipos de datos contiene cada columna? (numéricos, categóricos, fechas, etc.)</div>
-                    <div class="objective">Objetivo: Identificar el formato de cada variable</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Existen valores faltantes en el dataset? ¿En qué columnas y en qué proporción?</div>
-                    <div class="objective">Objetivo: Evaluar la completitud de los datos</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Hay duplicados en el dataset? ¿Cuántos y dónde se encuentran?</div>
-                    <div class="objective">Objetivo: Identificar posibles problemas de calidad de datos</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Cuál es el rango temporal de los datos? (si aplica)</div>
-                    <div class="objective">Objetivo: Comprender el período cubierto por los datos</div>
-                </li>
-            </ol>
-        </section>
+        <div class="section-grid">
+            <section class="section">
+                <h2 class="section-title"><i class="fas fa-database"></i> Comprensión de Datos</h2>
+                <ol class="question-list">
+                    <li class="question-item">
+                        <div class="question-text">¿Cuál es la estructura del dataset? (número de filas y columnas)</div>
+                        <div class="objective">Objetivo: Entender el tamaño y alcance de los datos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Qué tipos de datos contiene cada columna? (numéricos, categóricos, fechas, etc.)</div>
+                        <div class="objective">Objetivo: Identificar el formato de cada variable</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Existen valores faltantes en el dataset? ¿En qué columnas y en qué proporción?</div>
+                        <div class="objective">Objetivo: Evaluar la completitud de los datos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Hay duplicados en el dataset? ¿Cuántos y dónde se encuentran?</div>
+                        <div class="objective">Objetivo: Identificar problemas de calidad de datos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Cuál es el rango temporal de los datos de producción?</div>
+                        <div class="objective">Objetivo: Comprender el período cubierto por los datos</div>
+                    </li>
+                </ol>
+            </section>
 
-        <section class="section">
-            <h2 class="section-title"><i>📈</i> Análisis de Variables Numéricas</h2>
-            <ol class="question-list">
-                <li class="question-item">
-                    <div class="question-text">¿Cuáles son las distribuciones de las variables numéricas? (histogramas, boxplots)</div>
-                    <div class="objective">Objetivo: Identificar formas de distribución, sesgos y valores atípicos</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Cuáles son los estadísticos descriptivos clave? (media, mediana, desviación estándar, rango)</div>
-                    <div class="objective">Objetivo: Resumir las características centrales de los datos</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Existen valores atípicos significativos? ¿Cómo afectan al análisis?</div>
-                    <div class="objective">Objetivo: Identificar anomalías que puedan distorsionar resultados</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Cómo se relacionan las variables numéricas entre sí? (matriz de correlación)</div>
-                    <div class="objective">Objetivo: Descubrir relaciones lineales entre variables</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Cuál es la variabilidad de las variables clave? ¿Son estables o muestran dispersión?</div>
-                    <div class="objective">Objetivo: Evaluar la consistencia de los datos</div>
-                </li>
-            </ol>
-        </section>
+            <section class="section">
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Análisis de Sensores</h2>
+                <ol class="question-list">
+                    <li class="question-item">
+                        <div class="question-text">¿Cuáles son las distribuciones de las lecturas de sensores? (histogramas, boxplots)</div>
+                        <div class="objective">Objetivo: Identificar formas de distribución y sesgos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Cuáles son los estadísticos clave para cada sensor? (media, mediana, desviación)</div>
+                        <div class="objective">Objetivo: Resumir características centrales de los datos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Existen valores atípicos en las lecturas de sensores? ¿Cómo afectan al análisis?</div>
+                        <div class="objective">Objetivo: Identificar anomalías que distorsionen resultados</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Cómo se correlacionan las lecturas de diferentes sensores?</div>
+                        <div class="objective">Objetivo: Descubrir relaciones entre variables</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Cuál es la variabilidad de las lecturas clave? ¿Son estables o muestran dispersión?</div>
+                        <div class="objective">Objetivo: Evaluar la consistencia de los datos</div>
+                    </li>
+                </ol>
+            </section>
 
-        <section class="section">
-            <h2 class="section-title"><i>📋</i> Análisis de Variables Categóricas</h2>
-            <ol class="question-list">
-                <li class="question-item">
-                    <div class="question-text">¿Cuáles son las categorías principales y sus frecuencias?</div>
-                    <div class="objective">Objetivo: Identificar categorías dominantes y minoritarias</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Existen categorías desbalanceadas que puedan afectar el análisis?</div>
-                    <div class="objective">Objetivo: Detectar posibles sesgos en la distribución</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Cómo se relacionan las variables categóricas con las numéricas? (boxplots por categoría)</div>
-                    <div class="objective">Objetivo: Explorar diferencias entre grupos</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Existen categorías poco representadas que deban agruparse?</div>
-                    <div class="objective">Objetivo: Simplificar categorías con pocas observaciones</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Hay relaciones entre diferentes variables categóricas? (tablas cruzadas)</div>
-                    <div class="objective">Objetivo: Identificar patrones de asociación</div>
-                </li>
-            </ol>
-        </section>
+            <section class="section">
+                <h2 class="section-title"><i class="fas fa-tachometer-alt"></i> Variables de Proceso</h2>
+                <ol class="question-list">
+                    <li class="question-item">
+                        <div class="question-text">¿Cuáles son las categorías principales en las variables de proceso?</div>
+                        <div class="objective">Objetivo: Identificar categorías dominantes</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Existen categorías desbalanceadas que puedan afectar el análisis?</div>
+                        <div class="objective">Objetivo: Detectar posibles sesgos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Cómo se relacionan las variables categóricas con las lecturas de sensores?</div>
+                        <div class="objective">Objetivo: Explorar diferencias entre grupos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Existen categorías poco representadas que deban agruparse?</div>
+                        <div class="objective">Objetivo: Simplificar categorías con pocas observaciones</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Hay relaciones entre diferentes configuraciones de proceso?</div>
+                        <div class="objective">Objetivo: Identificar patrones de asociación</div>
+                    </li>
+                </ol>
+            </section>
 
-        <section class="section">
-            <h2 class="section-title"><i>🔍</i> Relaciones y Patrones</h2>
-            <ol class="question-list">
-                <li class="question-item">
-                    <div class="question-text">¿Existen tendencias temporales en los datos? (si hay variables de tiempo)</div>
-                    <div class="objective">Objetivo: Identificar patrones a lo largo del tiempo</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Cómo se relacionan las variables predictoras con la variable objetivo?</div>
-                    <div class="objective">Objetivo: Explorar relaciones clave para modelado</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Existen agrupaciones naturales en los datos? (análisis de clusters)</div>
-                    <div class="objective">Objetivo: Descubrir segmentos ocultos</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Hay patrones estacionales o cíclicos en los datos?</div>
-                    <div class="objective">Objetivo: Identificar repeticiones a intervalos regulares</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Existen relaciones no lineales que no se capturan con correlaciones?</div>
-                    <div class="objective">Objetivo: Detectar patrones complejos</div>
-                </li>
-            </ol>
-        </section>
+            <section class="section">
+                <h2 class="section-title"><i class="fas fa-project-diagram"></i> Relaciones Industriales</h2>
+                <ol class="question-list">
+                    <li class="question-item">
+                        <div class="question-text">¿Existen tendencias temporales en los datos de producción?</div>
+                        <div class="objective">Objetivo: Identificar patrones a lo largo del tiempo</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Cómo se relacionan las variables de proceso con la calidad del producto?</div>
+                        <div class="objective">Objetivo: Explorar relaciones clave para optimización</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Existen agrupaciones naturales en los datos de producción?</div>
+                        <div class="objective">Objetivo: Descubrir segmentos ocultos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Hay patrones cíclicos en los datos de producción?</div>
+                        <div class="objective">Objetivo: Identificar repeticiones a intervalos regulares</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Existen relaciones no lineales entre variables clave?</div>
+                        <div class="objective">Objetivo: Detectar patrones complejos</div>
+                    </li>
+                </ol>
+            </section>
 
-        <section class="section">
-            <h2 class="section-title"><i>⚠️</i> Calidad de Datos y Transformaciones</h2>
-            <ol class="question-list">
-                <li class="question-item">
-                    <div class="question-text">¿Cómo manejar los valores faltantes? (eliminación, imputación, etc.)</div>
-                    <div class="objective">Objetivo: Determinar estrategia para datos incompletos</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Necesitan normalización o estandarización las variables numéricas?</div>
-                    <div class="objective">Objetivo: Preparar datos para algoritmos sensibles a escalas</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Es necesario codificar variables categóricas? (one-hot, label encoding)</div>
-                    <div class="objective">Objetivo: Preparar datos para algoritmos que requieren entradas numéricas</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Se requieren transformaciones de variables? (log, raíz cuadrada, binning)</div>
-                    <div class="objective">Objetivo: Mejorar linealidad o manejar sesgos</div>
-                </li>
-                <li class="question-item">
-                    <div class="question-text">¿Hay inconsistencias en los datos que requieran limpieza? (errores de entrada, formatos inconsistentes)</div>
-                    <div class="objective">Objetivo: Asegurar consistencia en todo el dataset</div>
-                </li>
-            </ol>
-        </section>
+            <section class="section">
+                <h2 class="section-title"><i class="fas fa-cogs"></i> Calidad de Datos</h2>
+                <ol class="question-list">
+                    <li class="question-item">
+                        <div class="question-text">¿Cómo manejar los valores faltantes en datos industriales?</div>
+                        <div class="objective">Objetivo: Determinar estrategia para datos incompletos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Necesitan normalización las lecturas de sensores?</div>
+                        <div class="objective">Objetivo: Preparar datos para algoritmos sensibles a escalas</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Es necesario codificar variables de proceso categóricas?</div>
+                        <div class="objective">Objetivo: Preparar datos para algoritmos de análisis</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Se requieren transformaciones de variables para mejorar linealidad?</div>
+                        <div class="objective">Objetivo: Mejorar linealidad o manejar sesgos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Hay inconsistencias en los datos que requieran limpieza?</div>
+                        <div class="objective">Objetivo: Asegurar consistencia en todo el dataset</div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title"><i class="fas fa-chart-pie"></i> Análisis de Eficiencia</h2>
+                <ol class="question-list">
+                    <li class="question-item">
+                        <div class="question-text">¿Cómo se distribuyen los tiempos de ciclo en diferentes máquinas?</div>
+                        <div class="objective">Objetivo: Identificar cuellos de botella</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Cuál es la relación entre consumo energético y producción?</div>
+                        <div class="objective">Objetivo: Optimizar uso de recursos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Existe correlación entre parámetros de proceso y defectos?</div>
+                        <div class="objective">Objetivo: Reducir tasa de defectos</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Cómo varía la eficiencia entre turnos de producción?</div>
+                        <div class="objective">Objetivo: Identificar oportunidades de mejora</div>
+                    </li>
+                    <li class="question-item">
+                        <div class="question-text">¿Qué factores impactan más en el OEE (Overall Equipment Effectiveness)?</div>
+                        <div class="objective">Objetivo: Maximizar eficiencia de equipos</div>
+                    </li>
+                </ol>
+            </section>
+        </div>
 
         <footer>
-            <p>Guía para Análisis Exploratorio de Datos (EDA) | Creado con fines educativos</p>
-            <p>Estas preguntas son un punto de partida - adapta según las características específicas de tu dataset</p>
+            <div class="action-buttons">
+                <button class="action-btn">
+                    <i class="fas fa-file-export"></i> Exportar Reporte
+                </button>
+                <button class="action-btn download">
+                    <i class="fas fa-download"></i> Descargar Guía
+                </button>
+                <button class="action-btn print">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+            </div>
+
+            <div class="footer-title">Vulcan Forge - Análisis Exploratorio de Datos</div>
+            <p>Sistema de optimización de procesos industriales mediante análisis de datos</p>
+            <p>© 2023 Vulcan Forge Analytics | Todos los derechos reservados</p>
         </footer>
     </div>
 </body>
