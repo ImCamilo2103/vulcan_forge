@@ -28,4 +28,6 @@ venv/
 
 # 🚫 ARCHIVOS R
 *.R
+.Rhistory
+.RData
 scripts/hidden1.*
