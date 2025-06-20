@@ -224,7 +224,7 @@ dbeaver scripts/09_creacion_tablas_dashboard.sql
 - 🧠 [Análisis 5 Whys](documentos/Analisis%205%20Whys.html)
 - 👓 [Pre-Analisis](documentos/Analisis%20Exploratorio%20de%20Datos%20(EDA).html)
 - 📊 [Estadísticas de RUL](documentos/Resultado%20Analisis%20exploratorio%20(EDA).html)
-- 💡 [Insights Vulcan Forge](documentos/insigth_vulvan_forge.html)
+- 💡 [Insights Vulcan Forge](documentos/insigth%20vulcan%20forge.html)
 
 ---
 
