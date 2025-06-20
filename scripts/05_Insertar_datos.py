@@ -13,7 +13,7 @@ conn = psycopg2.connect(
 
 cur = conn.cursor()
 
-clean_dir = 'C:/Users/Asus/Documents/data analysis/Portafolio/vulcan_forge/data/cleaned'
+clean_dir = 'C:/Users/Asus/Documents/data_analysis/Portafolio/vulcan_forge/data/cleaned'
 
 for file in os.listdir(clean_dir):
     if not file.endswith('.csv'):

@@ -10,7 +10,7 @@ conn = psycopg2.connect(host = secrets['host'],
                         password = secrets['pass'],
                         connect_timeout = 3)
 
-clean_dir = 'C:/Users/Asus/Documents/data analysis/Portafolio/vulcan_forge/data/cleaned'
+clean_dir = 'C:/Users/Asus/Documents/data_analysis/Portafolio/vulcan_forge/data/cleaned'
 columns = [('unit_number', 'INTEGER'), ('time_in_cycles', 'INTEGER')] + [(f'operational_setting{i}', 'FLOAT') for i in range(1, 4)] + [(f'sensor_measurement{e}', 'FLOAT') for e in range(1, 22)]
 columns_sql = ', '.join([f'"{col}" {col_type}' for col, col_type in columns])
 
